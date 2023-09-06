@@ -32,6 +32,7 @@ const page = () => {
       const json = await response.json();
       if (json["status"] === true) {
         alert(json["message"]);
+        router.replace("/login");
       } else {
         alert(json["message"]);
       }

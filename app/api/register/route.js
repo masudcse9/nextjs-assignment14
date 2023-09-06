@@ -15,21 +15,18 @@ export async function POST(req, res) {
   } else {
     //let Cookie = await TokenCookies(email);
 
-    let Transporter = nodemailer.createTransport({
-      host: "mail.teamrabbil.com",
-      port: 25,
-      secure: false,
+    const Transporter = nodemailer.createTransport({
+      service:"gmail",
       auth: {
-        user: "info@teamrabbil.com",
-        pass: "~sR4[bhaC[Qs",
+        user: "masudcse9@gmail.com",
+        pass: "nroywdjwsdqhnggj",
       },
-      tls: { rejectUnauthorized: false },
     });
 
-    let myEmail = {
-      form: "abc@teamrabbil.com",
+    const myEmail = {
+      form: "masudcse9@gmail.com",
       to: email,
-      subject: "Test Email from Nodemailer",
+      subject: "Successfully email sent by nodemailer",
       text: "Test email",
     };
 
