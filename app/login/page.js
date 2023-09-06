@@ -1,11 +1,12 @@
-'use client'
+"use client";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
+import Navmenu from "@/components/Navmenu";
 
 const page = () => {
   const [formValue, setFormValue] = useState({
     email: "masudcse9@gmail.com",
-    password: "12345",
+    password: "123456",
   });
   const router = useRouter();
 
@@ -25,6 +26,7 @@ const page = () => {
     } else {
       const config = { method: "POST", body: JSON.stringify(formValue) };
       const response = await fetch("/api/login", config);
+
       const json = await response.json();
       if (json["status"] === true) {
         router.replace("/dashboard");
@@ -36,8 +38,22 @@ const page = () => {
 
   return (
     <div className="container mx-auto flex">
-      <div className="row mx-auto text-center pt-40">
-        <form onSubmit={SubmitLogin} class="w-full max-w-sm bg-white px-8 py-8">
+      <div className="row mx-auto pt-40">
+        <div className="w-full bg-white px-16">
+          <Navmenu />
+        </div>
+
+        <form onSubmit={SubmitLogin} class="w-full bg-white px-16 py-5">
+          <div class="flex flex-wrap -mx-3 mb-6">
+            <div class="w-full px-3">
+              <label
+                class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                for="grid-password"
+              >
+                Login
+              </label>
+            </div>
+          </div>
           <div class="md:flex md:items-center mb-6">
             {/* <h1 className="">Login</h1> */}
             <div class="md:w-1/3">

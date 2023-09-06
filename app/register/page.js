@@ -1,40 +1,98 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+import Navmenu from "@/components/Navmenu";
 
 const page = () => {
+  const [formValue, setFormValue] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
+  const router = useRouter();
+
+  const inputChange = (name, value) => {
+    setFormValue((formValue) => ({
+      ...formValue,
+      [name]: value,
+    }));
+  };
+
+  const Register = async (e) => {
+    e.preventDefault();
+    if (formValue.name.length === 0) {
+      alert("Name Required");
+    } else if (formValue.email.length === 0) {
+      alert("Email Required");
+    } else if (formValue.password.length === 0) {
+      alert("Password Required");
+    } else {
+      const config = { method: "POST", body: JSON.stringify(formValue) };
+      const response = await fetch("/api/register", config);
+      const json = await response.json();
+      if (json["status"] === true) {
+        alert(json["message"]);
+      } else {
+        alert(json["message"]);
+      }
+    }
+  };
+
   return (
     <div className="container mx-auto flex">
-      <div className="row mx-auto text-center pt-40">
-        <form class="w-full max-w-lg bg-white px-8 py-8">
+      <div className="row mx-auto pt-36">
+
+      <div className="w-full bg-white px-16">
+          <Navmenu />
+        </div>
+        
+        
+        <form onSubmit={Register} class="w-full bg-white px-16 py-5">
           <div class="flex flex-wrap -mx-3 mb-6">
-            <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+            <div class="w-full px-3">
               <label
                 class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                for="grid-first-name"
+                for="grid-password"
               >
-                First Name
+                Register here
               </label>
-              <input
-                class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                id="grid-first-name"
-                type="text"
-                placeholder="Jane"
-              />
-              <p class="text-red-500 text-xs italic">
-                Please fill out this field.
-              </p>
             </div>
-            <div class="w-full md:w-1/2 px-3">
+          </div>
+          <div class="flex flex-wrap -mx-3 mb-6">
+            <div class="w-full px-3">
               <label
                 class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                for="grid-last-name"
+                for="grid-password"
               >
-                Last Name
+                Name
               </label>
               <input
-                class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                id="grid-last-name"
+                class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                id="grid-password"
+                name="name"
                 type="text"
-                placeholder="Doe"
+                placeholder="Enter name"
+                value={formValue.name}
+                onChange={(e) => inputChange("name", e.target.value)}
+              />
+            </div>
+          </div>
+          <div class="flex flex-wrap -mx-3 mb-6">
+            <div class="w-full px-3">
+              <label
+                class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                for="grid-password"
+              >
+                Email
+              </label>
+              <input
+                class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                id="grid-password"
+                name="email"
+                type="text"
+                placeholder="Enter email"
+                value={formValue.email}
+                onChange={(e) => inputChange("email", e.target.value)}
               />
             </div>
           </div>
@@ -49,69 +107,25 @@ const page = () => {
               <input
                 class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                 id="grid-password"
+                name="password"
                 type="password"
-                placeholder="******************"
+                placeholder="***********"
+                value={formValue.password}
+                onChange={(e) => inputChange("password", e.target.value)}
               />
-              <p class="text-gray-600 text-xs italic">
-                Make it as long and as crazy as you'd like
-              </p>
             </div>
           </div>
           <div class="flex flex-wrap -mx-3 mb-2">
-            <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-              <label
-                class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                for="grid-city"
-              >
-                City
-              </label>
-              <input
-                class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                id="grid-city"
-                type="text"
-                placeholder="Albuquerque"
-              />
-            </div>
-            <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-              <label
-                class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                for="grid-state"
-              >
-                State
-              </label>
-              <div class="relative">
-                <select
-                  class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                  id="grid-state"
+            <div class="md:flex md:items-center">
+              <div class="md:w-1/3"></div>
+              <div class="md:w-2/3">
+                <button
+                  class="shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+                  type="submit"
                 >
-                  <option>New Mexico</option>
-                  <option>Missouri</option>
-                  <option>Texas</option>
-                </select>
-                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                  <svg
-                    class="fill-current h-4 w-4"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 20 20"
-                  >
-                    <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                  </svg>
-                </div>
+                  Register
+                </button>
               </div>
-            </div>
-            <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-              <label
-                class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                for="grid-zip"
-              >
-                Zip
-              </label>
-              <input
-                class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                id="grid-zip"
-                type="text"
-                placeholder="90210"
-              />
             </div>
           </div>
         </form>

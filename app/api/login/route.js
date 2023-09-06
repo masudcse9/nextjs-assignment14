@@ -8,7 +8,14 @@ export async function POST(req, res) {
   let email = jsonParams["email"];
   let password = jsonParams["password"];
 
-  if (email === "masudcse9@gmail.com" && password === "12345") {
+  const cookieStore = cookies();
+  const result = cookieStore.getAll();
+  const cookieEmail = result[0].value;
+  const cookiePassword = result[1].value;
+
+  //return NextResponse.json({result,cookieEmail,cookiePassword})
+
+  if (email === cookieEmail && password === cookiePassword) {
     let Cookie = await TokenCookies(email);
 
     return NextResponse.json(
@@ -20,10 +27,12 @@ export async function POST(req, res) {
   }
 }
 
-export async function GET(req, res) {
-  cookies.delete("token");
+export async function GET() {
+  cookies().delete('token')
+
   return NextResponse.json({
     status: true,
     message: "Logout Success",
   });
+
 }
