@@ -8,10 +8,10 @@ export async function POST(req, res) {
   let otp = jsonParams["otp"];
 
   const cookieStore = cookies();
-  const result = cookieStore.getAll();
-  const cookieEmail = result[0].value;
-  const cookiePassword = result[1].value;
-  const cookieOTP = result[2].value;
+  const cookieEmail = cookieStore.get('email')['value'];
+  const cookieOTP = cookieStore.get('otp')['value'];
+
+  //return NextResponse.json({ cookieOTP });
 
   if (otp === cookieOTP) {
     let Cookie = await TokenCookies(cookieEmail);

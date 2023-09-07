@@ -10,8 +10,8 @@ export async function POST(req, res) {
 
   const cookieStore = cookies();
   const result = cookieStore.getAll();
-  const cookieEmail = result[1].value;
-  const cookiePassword = result[0].value;
+  const cookieEmail = cookieStore.get('email')['value'];
+  const cookiePassword = cookieStore.get('password')['value'];
 
   //return NextResponse.json({result,cookieEmail,cookiePassword})
 
