@@ -32,7 +32,7 @@ const page = () => {
       const json = await response.json();
       if (json["status"] === true) {
         alert(json["message"]);
-        router.replace("/login");
+        router.replace("/otp");
       } else {
         alert(json["message"]);
       }

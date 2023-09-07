@@ -23,11 +23,14 @@ export async function POST(req, res) {
       },
     });
 
+    let OTP = 112233;
+    
     const myEmail = {
       form: "masudcse9@gmail.com",
       to: email,
-      subject: "Successfully email sent by nodemailer",
-      text: "Test email",
+      subject: "OTP Verification",
+      html: '<p>Your OTP Code is : <b>' + OTP + '</b> <br /> Click <a href="http://localhost:3000/otp/">here</a> to verify it.</p>'
+      // text: '<p>Click <a href="http://localhost:3000/otp/">here</a> to verify your OTP</p>',
     };
 
     try {
@@ -39,6 +42,10 @@ export async function POST(req, res) {
       });
       
       cookieStore.set("password", password, {
+        httpOnly: true,
+      });
+
+      cookieStore.set("otp", OTP, {
         httpOnly: true,
       });
 
